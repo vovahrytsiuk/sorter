@@ -9,6 +9,6 @@ class CStdSorter : public CSorterInterface<T>
 public: 
     void sort(std::vector<T>& array) override
     {
-        std::sort(array.begin(), array.end(), [](T i, T j) {return i < j; });
+        std::sort(array.begin(), array.end());
     }
 };

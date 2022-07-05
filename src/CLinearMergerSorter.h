@@ -22,12 +22,13 @@ class CLinearMergeSorter : public CSorterInterface<T>
         const auto leftSubArraySize = mid - left + 1;
         const auto rightSubArraySize = right - mid;
 
-        std::vector<T>::const_iterator leftFirst = array.begin() + left;
-        std::vector<T>::const_iterator leftLast = array.begin() + mid + 1;
+        typedef typename std::vector<T>::const_iterator iterator;
+        iterator leftFirst = array.begin() + left;
+        iterator leftLast = array.begin() + mid + 1;
         std::vector<T> leftArray(leftFirst, leftLast);
 
-        std::vector<T>::const_iterator rightFirst = array.begin() + mid + 1;
-        std::vector<T>::const_iterator rightLast = array.begin() + right + 1;
+        iterator rightFirst = array.begin() + mid + 1;
+        iterator rightLast = array.begin() + right + 1;
         std::vector<T> rightArray(rightFirst, rightLast);
     
         size_t indexOfSubArrayOne = 0;
