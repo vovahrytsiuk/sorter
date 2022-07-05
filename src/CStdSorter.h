@@ -1,11 +1,14 @@
 #pragma once
 
 #include "CSorterInterface.h"
-
+#include <algorithm>
 
 template <class T>
 class CStdSorter : public CSorterInterface<T>
 {
 public: 
-    std::vector<T> sort(const std::vector<T>& array) override;
+    void sort(std::vector<T>& array) override
+    {
+        std::sort(array.begin(), array.end(), [](T i, T j) {return i < j; });
+    }
 };

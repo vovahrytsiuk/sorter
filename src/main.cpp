@@ -1,14 +1,23 @@
 #include <iostream>
 #include "CCourseWork.h"
 #include "CStdSorter.h"
+#include "CSorterInterface.h"
+#include "CLinearMergerSorter.h"
 
 int main()
 {
     std::cout << "Hello world" << std::endl;
     const CCourseWork worker;
-    CStdSorter<int> sorter;
+    CSorterInterface<int>* sorter = new CLinearMergeSorter<int>;
 
-    const auto arr = worker.generateArray(100);
-    std::cout << worker.isSorted(sorter.sort(arr)) << std::endl;
+    auto arr = worker.generateArray(500000);
+    // worker.printArray(arr);
+    sorter->sortWithDebugInfo(arr);
+    // worker.printArray(arr);
+
+    std::cout << worker.isSorted(arr) << std::endl;
+    std::cout << arr.size();
+    
+    delete sorter;
     return 0;
 }
