@@ -4,8 +4,7 @@
 #include <iostream>
 #include <vector>
 
-
-bool CCourseWork::isSorted(const std::vector<int>& array) const
+bool NSCourseWork::isSorted(const std::vector<int> &array)
 {
     for (size_t i = 1; i < array.size(); i++)
     {
@@ -17,8 +16,7 @@ bool CCourseWork::isSorted(const std::vector<int>& array) const
     return true;
 }
 
-
-std::vector<int> CCourseWork::generateArray(const size_t size) const
+std::vector<int> NSCourseWork::generateArray(const size_t size)
 {
     std::vector<int> arr(size, 0);
     srand(time(NULL));
@@ -26,8 +24,7 @@ std::vector<int> CCourseWork::generateArray(const size_t size) const
     return arr;
 }
 
-
-void CCourseWork::printArray(const std::vector<int>& array) const
+void NSCourseWork::printArray(const std::vector<int> &array)
 {
     for (const auto e : array)
     {

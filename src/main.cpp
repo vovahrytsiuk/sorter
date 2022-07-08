@@ -3,21 +3,17 @@
 #include "CStdSorter.h"
 #include "CSorterInterface.h"
 #include "CLinearMergerSorter.h"
+#include "CLinearBucketSorter.h"
 
 int main()
 {
     std::cout << "Hello world" << std::endl;
-    const CCourseWork worker;
-    CSorterInterface<int>* sorter = new CLinearMergeSorter<int>;
+    CSorterInterface<int> *sorter = new CLinearBuckerSorter<int>;
 
-    auto arr = worker.generateArray(500000);
-    // worker.printArray(arr);
+    auto arr = NSCourseWork::generateArray(5000);
     sorter->sortWithDebugInfo(arr);
-    // worker.printArray(arr);
 
-    std::cout << worker.isSorted(arr) << std::endl;
-    std::cout << arr.size();
-    
-    delete sorter;
+    std::cout << NSCourseWork::isSorted(arr) << std::endl;
+    std::cout << arr.size() << std::endl;
     return 0;
 }

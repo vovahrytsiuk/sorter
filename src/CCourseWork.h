@@ -1,11 +1,9 @@
 #pragma once
 #include <vector>
 
-
-class CCourseWork final
+namespace NSCourseWork
 {
-public: 
-    std::vector<int> generateArray(const size_t size) const;
-    bool isSorted(const std::vector<int>& array) const;
-    void printArray(const std::vector<int>& array) const;
+    std::vector<int> generateArray(const size_t size);
+    bool isSorted(const std::vector<int> &array);
+    void printArray(const std::vector<int> &array);
 };
