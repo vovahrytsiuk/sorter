@@ -6,6 +6,8 @@
 template <class T>
 class CParallelMergeSorter : public CSorterInterface<T>
 {
+    static const size_t buctetsCount = 10;
+
 public:
     void sort(std::vector<T> &array) override
     {

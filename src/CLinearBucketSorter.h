@@ -5,7 +5,7 @@
 template <class T>
 class CLinearBuckerSorter : public CSorterInterface<T>
 {
-    static const size_t bucketCount = 500;
+    static const size_t bucketCount = 5;
     void internalSorter(std::vector<T> &subarray)
     {
         std::sort(begin(subarray), end(subarray));
