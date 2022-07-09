@@ -3,14 +3,19 @@
 #include <thread>
 
 template <class T>
+void internalSorter(std::vector<T> &subarray)
+{
+    auto start = std::chrono::steady_clock::now();
+    std::sort(begin(subarray), end(subarray));
+    auto finish = std::chrono::steady_clock::now();
+
+    std::cout << "Bucket sorted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() << std::endl;
+}
+
+template <class T>
 class CParallelBucketSorter : public CSorterInterface<T>
 {
-    static const size_t bucketCount = 5;
-
-    static void internalSorter(std::vector<T> &subarray)
-    {
-        std::sort(begin(subarray), end(subarray));
-    }
+    static const size_t bucketCount = 4;
 
     void getMaxAndMinValue(const std::vector<T> &array, T &max, T &min)
     {
@@ -31,7 +36,7 @@ class CParallelBucketSorter : public CSorterInterface<T>
     }
 
 public:
-    void sort(std::vector<T>& array) override 
+    void sort(std::vector<T> &array) override
     {
         std::vector<T> buckets[bucketCount];
 
@@ -40,14 +45,23 @@ public:
 
         for (const auto &el : array)
         {
-            size_t i = (el - min) / (max - min) * (bucketCount - 1);
+            size_t i = double((el - min)) / (max - min + 1) * (bucketCount);
             buckets[i].push_back(el);
         }
+
+        // for (const auto &bucket : buckets)
+        // {
+        //     for (const auto &el : bucket)
+        //         std::cout << el << " ";
+        //     std::cout << "\n";
+        // }
+
+        auto start = std::chrono::steady_clock::now();
 
         std::vector<std::thread> tasks;
         for (size_t i = 0; i < bucketCount; ++i)
         {
-            tasks.push_back(std::thread(internalSorter, buckets[i]));
+            tasks.push_back(std::thread(internalSorter<T>, std::ref(buckets[i])));
         }
 
         for (std::thread &t : tasks)
@@ -58,13 +72,16 @@ public:
             }
         }
 
+        auto finish = std::chrono::steady_clock::now();
+
+        std::cout << "All bucket sorted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() << std::endl;
         array.clear();
 
         for (const auto &bucket : buckets)
         {
             for (const auto &el : bucket)
             {
-                array.push_back(el);
+                array.emplace_back(el);
             }
         }
     }

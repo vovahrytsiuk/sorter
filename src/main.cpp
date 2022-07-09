@@ -16,5 +16,6 @@ int main()
 
     std::cout << NSCourseWork::isSorted(arr) << std::endl;
     std::cout << arr.size() << std::endl;
+    std::cout << std::thread::hardware_concurrency() << std::endl;
     return 0;
 }
