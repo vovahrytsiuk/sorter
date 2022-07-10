@@ -42,11 +42,17 @@ public:
         T max, min;
         getMaxAndMinValue(array, max, min);
 
+        auto start1 = std::chrono::steady_clock::now();
+
         for (const auto &el : array)
         {
             size_t i = double((el - min)) / (max - min + 1) * (bucketCount);
             buckets[i].push_back(el);
         }
+        auto finish1 = std::chrono::steady_clock::now();
+
+        std::cout << "All bucket splitted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish1 - start1).count() << std::endl;
+
         auto start = std::chrono::steady_clock::now();
 
         for (size_t i = 0; i < bucketCount; i++)
