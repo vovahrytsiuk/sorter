@@ -85,6 +85,7 @@
         "numeric": "cpp",
         "string_view": "cpp",
         "unordered_map": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "stop_token": "cpp"
     }
 }

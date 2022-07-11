@@ -11,10 +11,12 @@ int main()
     std::cout << "Hello world" << std::endl;
     CSorterInterface<int> *sorter = new CParallelBucketSorter<int>;
 
-    auto arr = NSCourseWork::generateArray(50000000);
+    auto arr = NSCourseWork::generateArray(5000000);
     sorter->sortWithDebugInfo(arr);
 
     std::cout << NSCourseWork::isSorted(arr) << std::endl;
     std::cout << arr.size() << std::endl;
+
+    std::vector<int> arr1(100);
     return 0;
 }

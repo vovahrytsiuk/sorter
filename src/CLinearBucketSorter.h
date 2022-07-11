@@ -34,25 +34,33 @@ class CLinearBucketSorter : public CSorterInterface<T>
         }
     }
 
-public:
-    void sort(std::vector<T> &array) override
-    {
-        std::vector<T> buckets[bucketCount];
 
+    void splitData(const std::vector<T>& array, std::vector<T> buckets[])
+    {
         T max, min;
         getMaxAndMinValue(array, max, min);
-
-        auto start1 = std::chrono::steady_clock::now();
 
         for (const auto &el : array)
         {
             size_t i = double((el - min)) / (max - min + 1) * (bucketCount);
             buckets[i].push_back(el);
         }
-        auto finish1 = std::chrono::steady_clock::now();
+    }
 
-        std::cout << "All bucket splitted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish1 - start1).count() << std::endl;
+public:
+    void sort(std::vector<T> &array) override
+    {
+        std::vector<T> buckets[bucketCount];
 
+        auto timebox1 = std::chrono::steady_clock::now();
+
+        splitData(array, buckets);
+
+        auto timebox2 = std::chrono::steady_clock::now();
+
+        std::cout << "All bucket splitted: " << std::chrono::duration_cast<std::chrono::milliseconds>(timebox2 - timebox1).count() << std::endl;
+
+        
         auto start = std::chrono::steady_clock::now();
 
         for (size_t i = 0; i < bucketCount; i++)
