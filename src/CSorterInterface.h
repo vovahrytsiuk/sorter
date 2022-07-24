@@ -13,7 +13,7 @@ public:
     virtual void sort(std::vector<T> &array) = 0;
     void sortWithDebugInfo(std::vector<T> &array)
     {
-        auto start = std::chrono::high_resolution_clock::now();
+        auto start = std::chrono::steady_clock::now();
 
         if (array.size() <= maxSizeToPrint)
         {
@@ -27,8 +27,8 @@ public:
             NSCourseWork::printArray(array);
         }
 
-        auto finish = std::chrono::high_resolution_clock::now();
+        auto finish = std::chrono::steady_clock::now();
 
-        std::cout << "Time: " << (finish - start).count() << std::endl;
+        std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() << std::endl;
     }
 };
