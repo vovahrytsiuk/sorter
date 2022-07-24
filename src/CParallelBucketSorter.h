@@ -6,11 +6,7 @@
 template <class T>
 void internalSorter(std::vector<T> &subarray)
 {
-    // auto start = std::chrono::steady_clock::now();
     std::sort(begin(subarray), end(subarray));
-    // auto finish = std::chrono::steady_clock::now();
-
-    // std::cout << "Bucket sorted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() << std::endl;
 }
 
 static std::mutex mtx;
@@ -51,7 +47,7 @@ class CParallelBucketSorter : public CSorterInterface<T>
         }
         auto finish = std::chrono::steady_clock::now();
 
-        std::cout << "Bucket plitted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() << std::endl;
+        std::cout << "Bucket splitted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() << std::endl;
     }
 
     void splitData(const std::vector<T>& array, std::vector<std::vector<T> >& buckets)
@@ -66,14 +62,18 @@ class CParallelBucketSorter : public CSorterInterface<T>
         }
     }
 
-    void parallelSplitData(const std::vector<T>& array, std::vector<std::vector<T> >& buckets)
+    // clang-format off
+    void parallelSplitData(const std::vector<T> &array, std::vector<std::vector<T> > &buckets)
     {
+        T max, min;
+        getMaxAndMinValue(array, max, min);
+
         size_t intervalSize = array.size() / bucketCount + 1;
         std::vector<std::thread> splitTasks;
 
         for (size_t i = 0; i < bucketCount; ++i)
         {
-            splitTasks.push_back(std::thread(splitDataToBuckets, std::ref(array), std::ref(buckets), std::ref(max), std::ref(min), i * intervalSize, (i + 1) * intervalSize));
+            splitTasks.emplace_back(splitDataToBuckets, std::ref(array), std::ref(buckets), std::ref(max), std::ref(min), i * intervalSize, (i + 1) * intervalSize);
         }
 
         for (std::thread &t : splitTasks)
@@ -84,6 +84,7 @@ class CParallelBucketSorter : public CSorterInterface<T>
             }
         }
     }
+    // clang-format on
 
     static void pourBucket(std::vector<T>& array, const std::vector<T>& bucket, const size_t startPos)
     {
@@ -129,28 +130,8 @@ public:
     {
         std::vector<std::vector<T> > buckets(bucketCount);
 
-        T max, min;
-        getMaxAndMinValue(array, max, min);
-
-        // for (const auto &el : array)
-        // {
-        //     size_t i = double((el - min)) / (max - min + 1) * (bucketCount);
-        //     buckets[i].push_back(el);
-        // }
         auto start1 = std::chrono::steady_clock::now();
-        // size_t intervalSize = array.size() / bucketCount + 1;
-        // std::vector<std::thread> splitTasks;
-        // for (size_t i = 0; i < bucketCount; ++i)
-        // {
-        //     splitTasks.push_back(std::thread(splitDataToBuckets, std::ref(array), std::ref(buckets), std::ref(max), std::ref(min), i * intervalSize, (i + 1) * intervalSize));
-        // }
-        // for (std::thread &t : splitTasks)
-        // {
-        //     if (t.joinable())
-        //     {
-        //         t.join();
-        //     }
-        // }
+        // parallelSplitData(array, buckets);
         splitData(array, buckets);
         auto finish1 = std::chrono::steady_clock::now();
 

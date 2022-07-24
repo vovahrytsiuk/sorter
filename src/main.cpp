@@ -5,18 +5,18 @@
 #include "CLinearMergerSorter.h"
 #include "CLinearBucketSorter.h"
 #include "CParallelBucketSorter.h"
+#include "CParallelMergeSorter.h"
 
 int main()
 {
-    std::cout << "Hello world" << std::endl;
     CSorterInterface<int> *sorter = new CParallelBucketSorter<int>;
 
-    auto arr = NSCourseWork::generateArray(5000000);
+    auto arr = NSCourseWork::generateArray(500);
+    NSCourseWork::dumpArrayToFile(arr);
     sorter->sortWithDebugInfo(arr);
 
     std::cout << NSCourseWork::isSorted(arr) << std::endl;
     std::cout << arr.size() << std::endl;
 
-    std::vector<int> arr1(100);
     return 0;
 }
