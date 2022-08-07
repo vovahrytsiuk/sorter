@@ -9,14 +9,43 @@
 
 int main()
 {
-    CSorterInterface<int> *sorter = new CParallelBucketSorter<int>;
+    CSorterInterface<int> *parallelBucketSorter = new CParallelBucketSorter<int>;
+    CSorterInterface<int> *parallelMergeSorter = new CParallelMergeSorter<int>;
+    CSorterInterface<int> *linearMergeSorter = new CLinearMergeSorter<int>;
+    CSorterInterface<int> *linearBucketSorter = new CLinearBucketSorter<int>;
+    CSorterInterface<int> *stdSorter = new CStdSorter<int>;
 
-    auto arr = NSCourseWork::generateArray(500);
-    NSCourseWork::dumpArrayToFile(arr);
-    sorter->sortWithDebugInfo(arr);
+    // std::vector<int> arr1 = NSCourseWork::generateArray(5000000);
+    // NSCourseWork::dumpDataToFile(arr1);
+    // std::vector<int> arr2(arr1);
+    // std::vector<int> arr3(arr1);
+    // std::vector<int> arr4(arr1);
 
-    std::cout << NSCourseWork::isSorted(arr) << std::endl;
-    std::cout << arr.size() << std::endl;
+    // parallelBucketSorter->sortWithDebugInfo(arr1);
+    // std::cout << "Sorted " << (NSCourseWork::isSorted(arr1) ? "true" : "false") << std::endl;
+
+    // parallelMergeSorter->sortWithDebugInfo(arr2);
+    // std::cout << "Sorted " << (NSCourseWork::isSorted(arr2) ? "true" : "false") << std::endl;
+
+    // linearBucketSorter->sortWithDebugInfo(arr3);
+    // std::cout << "Sorted " << (NSCourseWork::isSorted(arr3) ? "true" : "false") << std::endl;
+
+    // linearMergeSorter->sortWithDebugInfo(arr4);
+    // std::cout << "Sorted " << (NSCourseWork::isSorted(arr4) ? "true" : "false") << std::endl;
+
+    // NSCourseWork::test(parallelBucketSorter, "../pbs2.csv");
+    // NSCourseWork::test(parallelMergeSorter, "../pms2.csv");
+
+    // NSCourseWork::test(linearBucketSorter, "lbs.csv");
+    //  NSCourseWork::test(linearMergeSorter, "lms.csv");
+
+    NSCourseWork::test(stdSorter, "stdSorter.csv");
+
+    delete parallelBucketSorter;
+    delete parallelMergeSorter;
+    delete linearBucketSorter;
+    delete linearMergeSorter;
+    delete stdSorter;
 
     return 0;
 }

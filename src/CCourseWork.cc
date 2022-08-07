@@ -8,6 +8,8 @@
 namespace
 {
     const size_t kMaxValue = 1000000000;
+    const size_t kTestCaseCount = 9;
+    const size_t kTestCaseSizes[] = {10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000};
 }
 
 bool NSCourseWork::isSorted(const std::vector<int> &array)
@@ -41,11 +43,21 @@ void NSCourseWork::printArray(const std::vector<int> &array)
     std::cout << "\n";
 }
 
-void NSCourseWork::dumpArrayToFile(const std::vector<int> &array)
+void NSCourseWork::dumpDataToFile(const std::vector<int> &array)
 {
     std::ofstream out("array.csv");
     for (size_t i = 0; i < array.size(); ++i)
     {
         out << i << "," << array[i] << "\n";
+    }
+}
+
+void NSCourseWork::test(CSorterInterface<int> *sorter, const std::string &fileName)
+{
+    std::ofstream out(fileName, std::ofstream::out | std::ofstream::trunc);
+    for (size_t i = 0; i < kTestCaseCount; ++i)
+    {
+        std::vector<int> arr = generateArray(kTestCaseSizes[i]);
+        out << kTestCaseSizes[i] << "," << sorter->sortWithDebugInfo(arr) << std::endl;
     }
 }

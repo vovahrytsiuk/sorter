@@ -14,7 +14,7 @@ static std::mutex mtx;
 template <class T>
 class CParallelBucketSorter : public CSorterInterface<T>
 {
-    static const size_t bucketCount = 4;
+    static const size_t bucketCount = 2;
 
     void getMaxAndMinValue(const std::vector<T> &array, T &max, T &min)
     {
@@ -47,7 +47,7 @@ class CParallelBucketSorter : public CSorterInterface<T>
         }
         auto finish = std::chrono::steady_clock::now();
 
-        std::cout << "Bucket splitted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() << std::endl;
+        // std::cout << "Bucket splitted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() << std::endl;
     }
 
     void splitData(const std::vector<T>& array, std::vector<std::vector<T> >& buckets)
@@ -88,7 +88,7 @@ class CParallelBucketSorter : public CSorterInterface<T>
 
     static void pourBucket(std::vector<T>& array, const std::vector<T>& bucket, const size_t startPos)
     {
-        std::cout << startPos << "\n";
+        // std::cout << startPos << "\n";
         for (size_t i = 0; i < bucket.size(); ++i)
         {
             array[i + startPos] = bucket[i];
@@ -128,6 +128,7 @@ class CParallelBucketSorter : public CSorterInterface<T>
 public:
     void sort(std::vector<T> &array) override
     {
+        // std::cout << "Parallel Bucket Sorter " << std::endl;
         std::vector<std::vector<T> > buckets(bucketCount);
 
         auto start1 = std::chrono::steady_clock::now();
@@ -135,7 +136,7 @@ public:
         splitData(array, buckets);
         auto finish1 = std::chrono::steady_clock::now();
 
-        std::cout << "All bucket splitted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish1 - start1).count() << std::endl;
+        // std::cout << "All bucket splitted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish1 - start1).count() << std::endl;
 
         auto start = std::chrono::steady_clock::now();
 
@@ -155,7 +156,7 @@ public:
 
         auto finish = std::chrono::steady_clock::now();
 
-        std::cout << "All bucket sorted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() << std::endl;
+        // std::cout << "All bucket sorted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() << std::endl;
 
         auto timebox6 = std::chrono::steady_clock::now();
 
@@ -163,6 +164,6 @@ public:
 
         auto timebox7 = std::chrono::steady_clock::now();
 
-        std::cout << "All bucket poured: " << std::chrono::duration_cast<std::chrono::milliseconds>(timebox7 - timebox6).count() << std::endl;
+        // std::cout << "All bucket poured: " << std::chrono::duration_cast<std::chrono::milliseconds>(timebox7 - timebox6).count() << std::endl;
     }
 };

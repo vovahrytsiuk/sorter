@@ -50,6 +50,7 @@ class CLinearBucketSorter : public CSorterInterface<T>
 public:
     void sort(std::vector<T> &array) override
     {
+        // std::cout << "Linear Bucket Sorter " << std::endl;
         std::vector<T> buckets[bucketCount];
 
         auto timebox1 = std::chrono::steady_clock::now();
@@ -58,9 +59,8 @@ public:
 
         auto timebox2 = std::chrono::steady_clock::now();
 
-        std::cout << "All bucket splitted: " << std::chrono::duration_cast<std::chrono::milliseconds>(timebox2 - timebox1).count() << std::endl;
+        // std::cout << "All bucket splitted: " << std::chrono::duration_cast<std::chrono::milliseconds>(timebox2 - timebox1).count() << std::endl;
 
-        
         auto start = std::chrono::steady_clock::now();
 
         for (size_t i = 0; i < bucketCount; i++)
@@ -69,7 +69,7 @@ public:
         }
         auto finish = std::chrono::steady_clock::now();
 
-        std::cout << "All bucket sorted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() << std::endl;
+        // std::cout << "All bucket sorted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() << std::endl;
 
         array.clear();
 

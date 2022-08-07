@@ -86,6 +86,9 @@
         "string_view": "cpp",
         "unordered_map": "cpp",
         "thread": "cpp",
-        "stop_token": "cpp"
+        "stop_token": "cpp",
+        "deque": "cpp",
+        "fstream": "cpp",
+        "stack": "cpp"
     }
 }
