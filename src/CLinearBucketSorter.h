@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CSorterInterface.h"
+#include "CLinearMergerSorter.h"
 #include <thread>
 
 template <class T>
@@ -9,24 +10,8 @@ class CLinearBucketSorter : public CSorterInterface<T>
     static const size_t bucketCount = 100;
     void internalSorter(std::vector<T> &subarray)
     {
-        // auto start = std::chrono::steady_clock::now();
-        // std::sort(begin(subarray), end(subarray));
-        // auto finish = std::chrono::steady_clock::now();
-
-        // std::cout << "Bucket sorted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() << std::endl;
-
-        for (size_t i = 0; i < subarray.size() - 1; ++i)
-        {
-            for (size_t j = 0; j < subarray.size() - i - 1; ++j)
-            {
-                if (subarray[j] > subarray[j + 1])
-                {
-                    T temp = subarray[j];
-                    subarray[j] = subarray[j + 1];
-                    subarray[j + 1] = temp;
-                }
-            }
-        }
+        CLinearMergeSorter<T> sorter;
+        sorter.sort(subarray);
     }
 
     void getMaxAndMinValue(const std::vector<T> &array, T &max, T &min)
