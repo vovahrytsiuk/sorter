@@ -33,13 +33,12 @@ int main()
     // linearMergeSorter->sortWithDebugInfo(arr4);
     // std::cout << "Sorted " << (NSCourseWork::isSorted(arr4) ? "true" : "false") << std::endl;
 
-    // NSCourseWork::test(parallelBucketSorter, "../pbs2.csv");
-    // NSCourseWork::test(parallelMergeSorter, "../pms2.csv");
+    // NSCourseWork::test(parallelBucketSorter, "../pbs128.csv");
+    // NSCourseWork::test(parallelMergeSorter, "../pms128.csv");
+    NSCourseWork::test(linearBucketSorter, "lbs10.csv");
 
-    // NSCourseWork::test(linearBucketSorter, "lbs.csv");
-    //  NSCourseWork::test(linearMergeSorter, "lms.csv");
-
-    NSCourseWork::test(stdSorter, "stdSorter.csv");
+    // NSCourseWork::test(linearBucketSorter, "../lbs.csv");
+    // NSCourseWork::test(linearMergeSorter, "../lms.csv");
 
     delete parallelBucketSorter;
     delete parallelMergeSorter;

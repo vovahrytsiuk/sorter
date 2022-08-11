@@ -7,7 +7,7 @@
 template <class T>
 class CParallelMergeSorter : public CSorterInterface<T>
 {
-    static const size_t threadCount = 2;
+    static const size_t threadCount = 128;
     static void mergeSort(std::vector<T> &array, const size_t begin, const size_t end)
     {
         const size_t finish = (end >= array.size() ? (array.size() - 1) : end);

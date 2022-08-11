@@ -68,7 +68,6 @@ class CLinearMergeSorter : public CSorterInterface<T>
 public: 
     void sort(std::vector<T>& array) override 
     {
-        // std::cout << "Linear Merge Sorter " << std::endl;
         mergeSort(array, 0, array.size() - 1);
     }
 };

@@ -14,7 +14,7 @@ static std::mutex mtx;
 template <class T>
 class CParallelBucketSorter : public CSorterInterface<T>
 {
-    static const size_t bucketCount = 2;
+    static const size_t bucketCount = 128;
 
     void getMaxAndMinValue(const std::vector<T> &array, T &max, T &min)
     {

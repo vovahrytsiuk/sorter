@@ -6,14 +6,27 @@
 template <class T>
 class CLinearBucketSorter : public CSorterInterface<T>
 {
-    static const size_t bucketCount = 10;
+    static const size_t bucketCount = 100;
     void internalSorter(std::vector<T> &subarray)
     {
         // auto start = std::chrono::steady_clock::now();
-        std::sort(begin(subarray), end(subarray));
+        // std::sort(begin(subarray), end(subarray));
         // auto finish = std::chrono::steady_clock::now();
 
         // std::cout << "Bucket sorted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() << std::endl;
+
+        for (size_t i = 0; i < subarray.size() - 1; ++i)
+        {
+            for (size_t j = 0; j < subarray.size() - i - 1; ++j)
+            {
+                if (subarray[j] > subarray[j + 1])
+                {
+                    T temp = subarray[j];
+                    subarray[j] = subarray[j + 1];
+                    subarray[j + 1] = temp;
+                }
+            }
+        }
     }
 
     void getMaxAndMinValue(const std::vector<T> &array, T &max, T &min)
@@ -59,7 +72,7 @@ public:
 
         auto timebox2 = std::chrono::steady_clock::now();
 
-        // std::cout << "All bucket splitted: " << std::chrono::duration_cast<std::chrono::milliseconds>(timebox2 - timebox1).count() << std::endl;
+        std::cout << "All bucket splitted: " << std::chrono::duration_cast<std::chrono::milliseconds>(timebox2 - timebox1).count() << std::endl;
 
         auto start = std::chrono::steady_clock::now();
 
@@ -69,9 +82,11 @@ public:
         }
         auto finish = std::chrono::steady_clock::now();
 
-        // std::cout << "All bucket sorted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() << std::endl;
+        std::cout << "All bucket sorted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() << std::endl;
 
         array.clear();
+
+        auto timebox5 = std::chrono::steady_clock::now();
 
         for (const auto &bucket : buckets)
         {
@@ -80,5 +95,9 @@ public:
                 array.push_back(el);
             }
         }
+
+        auto timebox7 = std::chrono::steady_clock::now();
+
+        std::cout << "All bucket sorted: " << std::chrono::duration_cast<std::chrono::milliseconds>(timebox7 - timebox5).count() << std::endl;
     }
 };
