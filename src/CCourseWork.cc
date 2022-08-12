@@ -8,8 +8,9 @@
 namespace
 {
     const size_t kMaxValue = 1000000000;
-    const size_t kTestCaseCount = 9;
-    const size_t kTestCaseSizes[] = {10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000};
+    const size_t kTestCaseCount = 1;
+    // const size_t kTestCaseSizes[] = {10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000};
+    const size_t kTestCaseSizes[] = {100000000};
 }
 
 bool NSCourseWork::isSorted(const std::vector<int> &array)
@@ -59,5 +60,6 @@ void NSCourseWork::test(CSorterInterface<int> *sorter, const std::string &fileNa
     {
         std::vector<int> arr = generateArray(kTestCaseSizes[i]);
         out << kTestCaseSizes[i] << "," << sorter->sortWithDebugInfo(arr) << std::endl;
+        std::cout << isSorted(arr) << std::endl;
     }
 }
