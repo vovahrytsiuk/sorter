@@ -96,16 +96,6 @@ class CParallelBucketSorter : public CSorterInterface<T>
         }
     }
 
-    void pourBuckets(std::vector<T>& array, const std::vector<std::vector<T> >& buckets)
-    {
-        size_t index = 0;
-        for (const auto& bucket: buckets)
-        {
-            pourBucket(array, bucket, index);
-            index += bucket.size();
-        }
-    }
-
     void pourBucketsParallel(std::vector<T>& array, const std::vector<std::vector<T> >& buckets)
     {
         std::vector<std::thread> pourTasks;

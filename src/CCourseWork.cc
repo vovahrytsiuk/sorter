@@ -4,6 +4,8 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include "CParallelMergeSorter.h"
+#include "CParallelBucketSorter.h"
 
 namespace
 {
@@ -61,5 +63,39 @@ void NSCourseWork::test(CSorterInterface<int> *sorter, const std::string &fileNa
         std::vector<int> arr = generateArray(kTestCaseSizes[i]);
         out << kTestCaseSizes[i] << "," << sorter->sortWithDebugInfo(arr) << std::endl;
         std::cout << isSorted(arr) << std::endl;
+    }
+}
+
+
+void testParallelMergeSort()
+{
+    CParallelMergeSorter<int> sorter;
+    static std::vector<int> elementsCount {10, 100, 1000, 10000};
+    for (const auto count : elementsCount)
+    {
+        std::cout << "test on array with " << count << " elements" << std::endl;
+        std::vector<int> arr = NSCourseWork::generateArray(count);
+        std::cout << "Array is " << (NSCourseWork::isSorted(arr) ? "sorted" : "not sorted") << std::endl;
+        std::cout << "sorting" << std::endl;
+        sorter.sort(arr);
+        std::cout << "Array is " << (NSCourseWork::isSorted(arr) ? "sorted" : "not sorted") << std::endl;
+        std::cout << "---------------------------------------------------------------------" << std::endl;
+    }
+}
+
+
+void testParallelBucketSort()
+{
+    CParallelBucketSorter<int> sorter;
+    static std::vector<int> elementsCount {10, 100, 1000, 10000};
+    for (const auto count : elementsCount)
+    {
+        std::cout << "test on array with " << count << " elements" << std::endl;
+        std::vector<int> arr = NSCourseWork::generateArray(count);
+        std::cout << "Array is " << (NSCourseWork::isSorted(arr) ? "sorted" : "not sorted") << std::endl;
+        std::cout << "sorting" << std::endl;
+        sorter.sort(arr);
+        std::cout << "Array is " << (NSCourseWork::isSorted(arr) ? "sorted" : "not sorted") << std::endl;
+        std::cout << "---------------------------------------------------------------------" << std::endl;
     }
 }
