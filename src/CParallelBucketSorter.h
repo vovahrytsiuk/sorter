@@ -1,20 +1,22 @@
 #pragma once
 #include "CSorterInterface.h"
+#include "CLinearMergerSorter.h"
 #include <thread>
 #include <mutex>
-
-template <class T>
-void internalSorter(std::vector<T> &subarray)
-{
-    std::sort(begin(subarray), end(subarray));
-}
 
 static std::mutex mtx;
 
 template <class T>
 class CParallelBucketSorter : public CSorterInterface<T>
 {
-    static const size_t bucketCount = 2;
+    static const size_t bucketCount = 4;
+
+    static void internalSorter(std::vector<T> &subarray)
+    {
+        //std::sort(begin(subarray), end(subarray));
+        static CLinearMergeSorter<T> sorter;
+        sorter.sort(subarray);
+    }
 
     void getMaxAndMinValue(const std::vector<T> &array, T &max, T &min)
     {
@@ -88,7 +90,6 @@ class CParallelBucketSorter : public CSorterInterface<T>
 
     static void pourBucket(std::vector<T>& array, const std::vector<T>& bucket, const size_t startPos)
     {
-        // std::cout << startPos << "\n";
         for (size_t i = 0; i < bucket.size(); ++i)
         {
             array[i + startPos] = bucket[i];
@@ -132,8 +133,8 @@ public:
         std::vector<std::vector<T> > buckets(bucketCount);
 
         auto start1 = std::chrono::steady_clock::now();
-        // parallelSplitData(array, buckets);
-        splitData(array, buckets);
+        parallelSplitData(array, buckets);
+        // splitData(array, buckets);
         auto finish1 = std::chrono::steady_clock::now();
 
         // std::cout << "All bucket splitted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish1 - start1).count() << std::endl;
@@ -143,7 +144,7 @@ public:
         std::vector<std::thread> tasks;
         for (size_t i = 0; i < bucketCount; ++i)
         {
-            tasks.push_back(std::thread(internalSorter<T>, std::ref(buckets[i])));
+            tasks.push_back(std::thread(internalSorter, std::ref(buckets[i])));
         }
 
         for (std::thread &t : tasks)

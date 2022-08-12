@@ -7,7 +7,7 @@
 template <class T>
 class CParallelMergeSorter : public CSorterInterface<T>
 {
-    static const size_t threadCount = 2;
+    static const size_t threadCount = 4;
     static void mergeSort(std::vector<T> &array, const size_t begin, const size_t end)
     {
         const size_t finish = (end >= array.size() ? (array.size() - 1) : end);
@@ -81,14 +81,11 @@ public:
 
         std::vector<std::thread> mergeSortTasks;
 
-        std::vector<size_t> beginSubArrayIndexes(threadCount);
         std::vector<size_t> finishSubArrayIndexes(threadCount);
-
 
         for (size_t i = 0; i < threadCount; ++i)
         {
             mergeSortTasks.emplace_back(mergeSort, std::ref(array), i * intervalSize, (i + 1) * intervalSize - 1);
-            beginSubArrayIndexes[i] = std::min(i * intervalSize, array.size() - 1);
             finishSubArrayIndexes[i] = std::min((i + 1) * intervalSize, array.size()) - 1;
         }
 
