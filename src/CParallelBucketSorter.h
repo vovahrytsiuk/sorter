@@ -35,7 +35,7 @@ class CParallelBucketSorter : public CSorterInterface<T>
         }
     }
 
-    static void splitDataToBuckets(const std::vector<T> &array, std::vector<std::vector<T> >& buckets, const T &max, const T &min, const size_t startIndex, const size_t finalIndex)
+    static void splitDataToBuckets(const std::vector<T> &array, std::vector<std::vector<T>> &buckets, const T &max, const T &min, const size_t startIndex, const size_t finalIndex)
     {
         auto start = std::chrono::steady_clock::now();
         for (size_t i = startIndex; i < finalIndex && i < array.size(); ++i)
@@ -49,7 +49,7 @@ class CParallelBucketSorter : public CSorterInterface<T>
         auto finish = std::chrono::steady_clock::now();
     }
 
-    void splitData(const std::vector<T>& array, std::vector<std::vector<T> >& buckets)
+    void splitData(const std::vector<T> &array, std::vector<std::vector<T>> &buckets)
     {
         T max, min;
         getMaxAndMinValue(array, max, min);
@@ -85,7 +85,7 @@ class CParallelBucketSorter : public CSorterInterface<T>
     }
     // clang-format on
 
-    static void pourBucket(std::vector<T>& array, const std::vector<T>& bucket, const size_t startPos)
+    static void pourBucket(std::vector<T> &array, const std::vector<T> &bucket, const size_t startPos)
     {
         for (size_t i = 0; i < bucket.size(); ++i)
         {
@@ -93,22 +93,12 @@ class CParallelBucketSorter : public CSorterInterface<T>
         }
     }
 
-    void pourBuckets(std::vector<T>& array, const std::vector<std::vector<T> >& buckets)
-    {
-        size_t index = 0;
-        for (const auto& bucket: buckets)
-        {
-            pourBucket(array, bucket, index);
-            index += bucket.size();
-        }
-    }
-
-    void pourBucketsParallel(std::vector<T>& array, const std::vector<std::vector<T> >& buckets)
+    void pourBucketsParallel(std::vector<T> &array, const std::vector<std::vector<T>> &buckets)
     {
         std::vector<std::thread> pourTasks;
 
         size_t index = 0;
-        for (const auto& bucket : buckets)
+        for (const auto &bucket : buckets)
         {
             pourTasks.emplace_back(pourBucket, std::ref(array), std::ref(bucket), index);
             index += bucket.size();
@@ -129,10 +119,9 @@ public:
         std::vector<std::vector<T>> buckets(bucketCount);
 
         auto start1 = std::chrono::steady_clock::now();
-        splitData(array, buckets);
-        auto finish1 = std::chrono::steady_clock::now();
+        parallelSplitData(array, buckets);
 
-        std::cout << "All bucket splitted: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish1 - start1).count() << std::endl;
+        auto finish1 = std::chrono::steady_clock::now();
 
         auto start = std::chrono::steady_clock::now();
 
