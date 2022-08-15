@@ -76,7 +76,6 @@ public:
     // clang-format off
     void sort(std::vector<T> &array) override
     {
-        // std::cout << "Parallel Merge Sorter " << std::endl;
         const size_t intervalSize = array.size() / threadCount + 1;
 
         std::vector<std::thread> mergeSortTasks;
@@ -100,7 +99,6 @@ public:
             }
         }
 
-        // merging sorted parts of array
         const size_t begin = 0;
         size_t mid = finishSubArrayIndexes[0];
         size_t finish = 0;

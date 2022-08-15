@@ -20,6 +20,6 @@ public:
 
         auto finish = std::chrono::steady_clock::now();
 
-        return std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count();
+        return std::chrono::duration_cast<std::chrono::microseconds>(finish - start).count();
     }
 };

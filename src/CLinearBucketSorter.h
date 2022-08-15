@@ -10,7 +10,7 @@ class CLinearBucketSorter : public CSorterInterface<T>
     static const size_t bucketCount = 100;
     void internalSorter(std::vector<T> &subarray)
     {
-        CLinearMergeSorter<T> sorter;
+        static CLinearMergeSorter<T> sorter;
         sorter.sort(subarray);
     }
 
